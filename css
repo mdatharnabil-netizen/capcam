@@ -1,0 +1,659 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap");
+
+:root {
+  --bg: #090a0c;
+  --panel: #111317;
+  --panel-light: #191c21;
+  --border: #282b31;
+  --text: #f4f5f7;
+  --muted: #8c919b;
+  --accent: #c5fa69;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "DM Sans", Arial, sans-serif;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.app {
+  width: min(1400px, 100%);
+  margin: auto;
+  padding: 0 34px;
+}
+
+.topbar {
+  min-height: 78px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  gap: 20px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text);
+  text-decoration: none;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.8px;
+  font-size: 20px;
+}
+
+.brandIcon {
+  width: 33px;
+  height: 33px;
+  display: grid;
+  place-items: center;
+  color: #111;
+  background: var(--accent);
+  border-radius: 10px;
+  font-size: 22px;
+}
+
+.accent {
+  color: var(--accent);
+}
+
+.topStatus {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  color: var(--muted);
+}
+
+.statusDot,
+.recordDot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #676c75;
+}
+
+.statusDot.live,
+.recordDot {
+  background: #c5fa69;
+}
+
+.iconButton {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  font-size: 20px;
+}
+
+.intro {
+  padding: 48px 0 35px;
+}
+
+.eyebrow {
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.intro h1 {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(34px, 5vw, 60px);
+  line-height: 1.12;
+  letter-spacing: -2px;
+  margin: 13px 0;
+}
+
+.intro h1 span {
+  color: var(--muted);
+}
+
+.intro p {
+  color: var(--muted);
+  margin: 0;
+  font-size: 14px;
+}
+
+.cameraLayout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(300px, 0.8fr);
+  gap: 22px;
+  align-items: start;
+}
+
+.cameraCard,
+.controls,
+.photoResult {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.viewfinder {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background:
+    radial-gradient(ellipse at center, #242831 0%, #111317 60%, #08090b 100%);
+  overflow: hidden;
+}
+
+.cameraVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  position: absolute;
+  inset: 0;
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.cameraVideo.mirrored {
+  /* The capture is mirrored separately when saving. */
+}
+
+.cameraPlaceholder {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 24px;
+}
+
+.lensIcon {
+  width: 64px;
+  height: 64px;
+  border: 1px solid #414650;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 38px;
+  color: var(--accent);
+  margin-bottom: 17px;
+}
+
+.cameraPlaceholder h2 {
+  font-size: 19px;
+  margin: 0 0 9px;
+}
+
+.cameraPlaceholder p {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 0 0 22px;
+}
+
+.viewfinderCorners {
+  pointer-events: none;
+  position: absolute;
+  inset: 13px;
+  z-index: 1;
+  border: 1px solid #ffffff20;
+  border-radius: 5px;
+}
+
+.viewfinderLabel,
+.resolutionTag {
+  position: absolute;
+  z-index: 3;
+  top: 26px;
+  padding: 7px 10px;
+  border-radius: 6px;
+  background: #0009;
+  color: #f4f5f7;
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+
+.viewfinderLabel {
+  left: 26px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.resolutionTag {
+  right: 26px;
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.focusMark {
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #ffffff80;
+  border-radius: 50%;
+  color: white;
+  font-size: 17px;
+}
+
+.cameraToolbar {
+  min-height: 98px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 12px;
+  padding: 15px 22px;
+}
+
+.secondaryButton {
+  min-width: 88px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 10px 12px;
+  background: var(--panel-light);
+  color: #e3e5e9;
+  font-size: 12px;
+}
+
+.secondaryButton.selected {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.shutter {
+  width: 65px;
+  height: 65px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  border: 2px solid #f5f5f5;
+  border-radius: 50%;
+  background: transparent;
+  transition: transform 0.15s;
+}
+
+.shutter:hover:not(:disabled) {
+  transform: scale(1.06);
+}
+
+.shutter span {
+  width: 49px;
+  height: 49px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.controls {
+  padding: 23px;
+}
+
+.panelHeading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 26px;
+}
+
+.panelHeading h2,
+.resultHeader h2 {
+  margin: 7px 0 0;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 23px;
+}
+
+.manualBadge {
+  border: 1px solid #3c4b2b;
+  background: #20291a;
+  color: var(--accent);
+  border-radius: 6px;
+  padding: 6px 8px;
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+
+.controlGroup {
+  padding: 19px 0;
+  border-top: 1px solid var(--border);
+}
+
+.controlLabel {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+  font-size: 12px;
+}
+
+.controlLabel label {
+  color: #cdd0d6;
+}
+
+.controlLabel strong {
+  font-variant-numeric: tabular-nums;
+}
+
+input[type="range"] {
+  display: block;
+  width: 100%;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.rangeLabels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 9px;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.profileGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.profileButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  padding: 12px 5px;
+  background: var(--panel-light);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.profileButton.profileActive {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: #1b2415;
+}
+
+.profileSwatch {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f1dfc4, #8d9a9c, #30383b);
+}
+
+.profileSwatch.dslr {
+  background: linear-gradient(135deg, #eacb9a, #8c9b72, #303e30);
+}
+
+.profileSwatch.film {
+  background: linear-gradient(135deg, #d3a56e, #b87e61, #4a3946);
+}
+
+.qualityInfo {
+  display: flex;
+  gap: 12px;
+  padding: 15px 12px;
+  margin: 8px 0 19px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #0d0f12;
+}
+
+.qualityIcon {
+  display: grid;
+  place-items: center;
+  width: 27px;
+  height: 27px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #24301b;
+  color: var(--accent);
+}
+
+.qualityInfo strong {
+  font-size: 11px;
+}
+
+.qualityInfo p {
+  margin: 5px 0;
+  color: var(--accent);
+  font-size: 12px;
+}
+
+.qualityInfo small {
+  font-size: 10px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.primaryButton {
+  border: 0;
+  border-radius: 9px;
+  padding: 13px 18px;
+  background: var(--accent);
+  color: #12160d;
+  font-weight: 700;
+  font-size: 12px;
+  transition: opacity 0.15s, transform 0.15s;
+}
+
+.primaryButton:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.fullButton {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+}
+
+.fullButton span {
+  font-size: 18px;
+}
+
+.textButton {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  padding: 16px 0 0;
+  font-size: 11px;
+}
+
+.errorMessage {
+  margin: 0 18px;
+  padding: 12px;
+  color: #ffb5b5;
+  background: #351c21;
+  border: 1px solid #69333c;
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.photoResult {
+  margin-top: 28px;
+  padding: 24px;
+}
+
+.resultHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 22px;
+}
+
+.photoResult img {
+  display: block;
+  width: 100%;
+  max-height: 850px;
+  object-fit: contain;
+  background: #050505;
+  border-radius: 10px;
+}
+
+.resultNote {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
+  margin-bottom: 0;
+}
+
+.hiddenCanvas {
+  display: none;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 32px 0;
+  margin-top: 25px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.footerBrand {
+  font-size: 15px;
+}
+
+.footerBrand .brandIcon {
+  width: 25px;
+  height: 25px;
+  font-size: 17px;
+  border-radius: 7px;
+}
+
+@media (max-width: 850px) {
+  .app {
+    padding: 0 20px;
+  }
+
+  .cameraLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .controls {
+    padding: 22px;
+  }
+
+  .viewfinder {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+@media (max-width: 500px) {
+  .app {
+    padding: 0 13px;
+  }
+
+  .topbar {
+    min-height: 66px;
+  }
+
+  .brand {
+    font-size: 17px;
+    gap: 7px;
+  }
+
+  .topStatus {
+    font-size: 8px;
+    letter-spacing: 0.4px;
+    gap: 5px;
+  }
+
+  .intro {
+    padding: 35px 0 25px;
+  }
+
+  .intro h1 {
+    font-size: 36px;
+    letter-spacing: -1.5px;
+  }
+
+  .viewfinder {
+    aspect-ratio: 3 / 4;
+  }
+
+  .cameraToolbar {
+    min-height: 83px;
+    padding: 12px 9px;
+  }
+
+  .shutter {
+    width: 59px;
+    height: 59px;
+  }
+
+  .shutter span {
+    width: 43px;
+    height: 43px;
+  }
+
+  .secondaryButton {
+    min-width: 75px;
+    padding: 9px 7px;
+    font-size: 11px;
+  }
+
+  .controls {
+    padding: 18px;
+  }
+
+  .resultHeader {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .photoResult {
+    padding: 15px;
+  }
+
+  .footer {
+    flex-wrap: wrap;
+    line-height: 1.6;
+  }
+}
